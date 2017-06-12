@@ -13,9 +13,34 @@ library(babynames)
 
 # Define server logic for displaying randomly generated names
 shinyServer(function(input, output) {
-  buildNames <- unique(babynames$name)
-  # buildNames <- buildNames[grep(input$pattern, buildNames)]
-  output$nameList <- renderText({
-    sort(sample(buildNames, input$nsize))
+  # Unique names only
+  uniqueNames <- unique(babynames$name)
+  
+  # Grep the input name pattern
+  grepNames <- reactive ({
+  uniqueNames[grep(input$pattern, uniqueNames)]
   })
+  
+  # Create the sorted sample list of names
+  buildNames <- reactive ({
+    sort(sample(grepNames(), input$nsize))
+  })
+  
+  # Padding to add to vector to break evenly into 3 columns
+  padCells <- reactive( if (input$nsize %% 3 > 0) 3 - (input$nsize %% 3) else 0)
+  
+  # Put names into a 3 column matrix
+  formatNames <- reactive ({
+    matrix(
+      # Fill out each empty columns at the end with an empty string
+      c(buildNames(), rep("", padCells())), 
+      ncol = 3, 
+      byrow = TRUE)
+  })
+  
+  # Render name matrix as a table
+  output$nameList <- renderTable(
+    formatNames(),
+    colnames = FALSE
+  )
 })

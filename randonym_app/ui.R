@@ -14,15 +14,15 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Randonym"),
+  titlePanel( h1("Randonym")),
   
   sidebarLayout( position = "left",
-    sidebarPanel( "Settings",
-                  sliderInput("nsize", "Number of names to list:", 1, 50, 15)#,
-                  #textInput("pattern", "Contains...", value = "")
+    sidebarPanel( h4("Settings"),
+                  sliderInput("nsize", "Number of names to list:", 1, 50, 15),
+                  textInput("pattern", "Matches pattern:", value = "")
                   ),
-    mainPanel("Results", 
+    mainPanel( h4("Results"), 
               align = "center",
-              textOutput("nameList"))
+              tableOutput("nameList"))
   )
 ))

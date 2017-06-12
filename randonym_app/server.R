@@ -13,12 +13,20 @@ library(babynames)
 
 # Define server logic for displaying randomly generated names
 shinyServer(function(input, output) {
+  # Restrict by proportions
+  propFilter <- reactive(
+    babynames$name[babynames$prop > (input$props[1] / 100) & 
+                   babynames$prop < (input$props[2] / 100)]
+  )
+  
   # Unique names only
-  uniqueNames <- unique(babynames$name)
+  uniqueNames <- reactive({
+    unique(propFilter())
+  })
   
   # Grep the input name pattern
   grepNames <- reactive ({
-  uniqueNames[grep(input$pattern, uniqueNames)]
+    uniqueNames()[grep(input$pattern, uniqueNames())]
   })
   
   # Set the sample size ceiling if input list N size is larger 
@@ -35,7 +43,7 @@ shinyServer(function(input, output) {
   # Padding to add to vector to break evenly into 3 columns
   padCells <- reactive( 
     if (sampleSize() %% 3 > 0) 3 - (sampleSize() %% 3) else 0
-    )
+  )
   
   # Put names into a 3 column matrix
   formatNames <- reactive ({

@@ -14,11 +14,20 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel( h1("Randonym")),
+  titlePanel("Randonym"),
   
   sidebarLayout( position = "left",
     sidebarPanel( h4("Settings"),
                   sliderInput("nsize", "Number of names to list:", 1, 50, 15),
+                  # Props are * 100 to display as a percentage
+                  sliderInput("props", "Popularity (within a single year):",
+                              min = 2e-04, 
+                              max = 2,
+                              value = c(2.2e-04, 2),
+                              dragRange = TRUE,
+                              ticks = FALSE,
+                              sep = '',
+                              post = '%'),
                   textInput("pattern", "Matches pattern:", value = "")
                   ),
     mainPanel( h4("Results"), 

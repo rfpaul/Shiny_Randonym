@@ -21,13 +21,21 @@ shinyServer(function(input, output) {
   uniqueNames[grep(input$pattern, uniqueNames)]
   })
   
+  # Set the sample size ceiling if input list N size is larger 
+  # than grepNames length
+  sampleSize <- reactive(
+    if (input$nsize > length(grepNames())) length(grepNames()) else input$nsize
+    )
+  
   # Create the sorted sample list of names
   buildNames <- reactive ({
-    sort(sample(grepNames(), input$nsize))
+    sort(sample(grepNames(), sampleSize()))
   })
   
   # Padding to add to vector to break evenly into 3 columns
-  padCells <- reactive( if (input$nsize %% 3 > 0) 3 - (input$nsize %% 3) else 0)
+  padCells <- reactive( 
+    if (sampleSize() %% 3 > 0) 3 - (sampleSize() %% 3) else 0
+    )
   
   # Put names into a 3 column matrix
   formatNames <- reactive ({

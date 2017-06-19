@@ -43,11 +43,9 @@ shinyServer(function(input, output) {
   # Debounce this input so errors don't get shown in the results pane
   # This also has the effective result of debouncing ALL reactive inputs,
   # since all the reactive inputs are chained together
-  grepNames <- debounce(
-    reactive ({
-      uniqueNames()[grep(input$pattern, uniqueNames())]
-    }),
-    millis = 300)
+  grepNames <- reactive ({
+    uniqueNames()[grep(input$pattern, uniqueNames())]
+  })
   
   # Set the sample size ceiling if input list N size is larger 
   # than grepNames length

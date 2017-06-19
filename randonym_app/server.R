@@ -15,8 +15,8 @@ library(babynames)
 shinyServer(function(input, output) {
   # Restrict by proportions, note that percentages are being divided by 100
   propFiltered <- reactive({
-    babynames[babynames$prop > (input$props[1] / 100) & 
-              babynames$prop < (input$props[2] / 100),]
+    babynames[babynames$prop >= (input$props[1] / 100) & 
+              babynames$prop <= (input$props[2] / 100),]
   })
   
   # Restrict by associated sex
@@ -40,9 +40,14 @@ shinyServer(function(input, output) {
   })
   
   # Grep the input name pattern
-  grepNames <- reactive ({
-    uniqueNames()[grep(input$pattern, uniqueNames())]
-  })
+  # Debounce this input so errors don't get shown in the results pane
+  # This also has the effective result of debouncing ALL reactive inputs,
+  # since all the reactive inputs are chained together
+  grepNames <- debounce(
+    reactive ({
+      uniqueNames()[grep(input$pattern, uniqueNames())]
+    }),
+    millis = 300)
   
   # Set the sample size ceiling if input list N size is larger 
   # than grepNames length
@@ -53,7 +58,7 @@ shinyServer(function(input, output) {
   # Create the sorted sample list of names
   buildNames <- reactive ({
     sort(sample(grepNames(), sampleSize()))
-  })
+    })
   
   # Padding to add to vector to break evenly into 3 columns
   padCells <- reactive( 
@@ -63,7 +68,7 @@ shinyServer(function(input, output) {
   # Put names into a 3 column matrix
   formatNames <- reactive ({
     matrix(
-      # Fill out each empty columns at the end with an empty string
+      # Fill out each empty columnS at the end with an empty string
       c(buildNames(), rep("", padCells())), 
       ncol = 3, 
       byrow = TRUE)

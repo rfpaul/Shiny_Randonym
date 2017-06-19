@@ -38,6 +38,7 @@ shinyUI(fluidPage(
                               max = 2014,
                               value = c(1880, 2014),
                               dragRange = TRUE,
+                              ticks = FALSE,
                               sep = ''),
                   textInput("pattern", "Matches pattern:", value = "")
                   ),

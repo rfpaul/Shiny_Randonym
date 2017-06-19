@@ -13,15 +13,30 @@ library(babynames)
 
 # Define server logic for displaying randomly generated names
 shinyServer(function(input, output) {
-  # Restrict by proportions
-  propFilter <- reactive(
-    babynames$name[babynames$prop > (input$props[1] / 100) & 
-                   babynames$prop < (input$props[2] / 100)]
+  # Restrict by proportions, note that percentages are being divided by 100
+  propFiltered <- reactive({
+    babynames[babynames$prop > (input$props[1] / 100) & 
+              babynames$prop < (input$props[2] / 100),]
+  })
+  
+  # Restrict by associated sex
+  
+  sexFiltered <- reactive({
+    if (input$sex != 'E')
+      propFiltered()[propFiltered()$sex == input$sex,]
+    else
+      propFiltered()
+  })
+  
+  # Restrict by year
+  yearFiltered <- reactive(
+    sexFiltered()$name[sexFiltered()$year >= (input$years[1]) & 
+                       sexFiltered()$year <= (input$years[2])]
   )
   
   # Unique names only
   uniqueNames <- reactive({
-    unique(propFilter())
+    unique(yearFiltered())
   })
   
   # Grep the input name pattern

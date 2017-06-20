@@ -40,7 +40,18 @@ shinyUI(fluidPage(
                               dragRange = TRUE,
                               ticks = FALSE,
                               sep = ''),
-                  textInput("pattern", "Matches pattern:", value = "")
+                  fluidRow (
+                    column(width = 10,
+                           textInput("pattern",
+                                     "Matches pattern:",
+                                     value = "")),
+                    column(width = 1,
+                           style='padding-top:25px;padding-left:0px;',
+                           offset = 0,
+                           actionButton("goPattern",
+                               label = NULL,
+                               icon = icon('filter')))
+                    )
                   ),
     mainPanel( h4("Results"), 
               align = "center",

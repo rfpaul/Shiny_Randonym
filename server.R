@@ -40,10 +40,8 @@ shinyServer(function(input, output) {
   })
   
   # Grep the input name pattern
-  # Debounce this input so errors don't get shown in the results pane
-  # This also has the effective result of debouncing ALL reactive inputs,
-  # since all the reactive inputs are chained together
-  grepNames <- reactive ({
+  # Reactive to the pattern input box
+  grepNames <- eventReactive (input$goPattern, ignoreNULL = FALSE, {
     uniqueNames()[grep(input$pattern, uniqueNames())]
   })
   

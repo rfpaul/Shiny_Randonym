@@ -41,7 +41,7 @@ shinyUI(fluidPage(
                               ticks = FALSE,
                               sep = ''),
                   fluidRow (
-                    column(width = 10,
+                    column(width = 8,
                            textInput("pattern",
                                      "Matches pattern:",
                                      value = "")),

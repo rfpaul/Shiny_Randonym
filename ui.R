@@ -40,13 +40,13 @@ shinyUI(fluidPage(
                               dragRange = TRUE,
                               ticks = FALSE,
                               sep = ''),
-                  fixedRow (
-                    column(width = 8,
+                  fluidRow (
+                    column(width = 9,
                            textInput("pattern",
                                      "Matches pattern:",
                                      value = "")),
                     column(width = 1,
-                           style='padding-top:25px;padding-left:0px;',
+                           style='padding-top:25px;',
                            offset = 0,
                            actionButton("goPattern",
                                label = NULL,

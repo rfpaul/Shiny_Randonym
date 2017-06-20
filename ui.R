@@ -46,7 +46,7 @@ shinyUI(fluidPage(
                                      "Matches pattern:",
                                      value = "")),
                     column(width = 1,
-                           style='padding-top:25px;padding-left:0px;',
+                           #style='padding-top:25px;padding-left:0px;',
                            offset = 0,
                            actionButton("goPattern",
                                label = NULL,

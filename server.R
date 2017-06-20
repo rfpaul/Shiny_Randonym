@@ -20,7 +20,6 @@ shinyServer(function(input, output) {
   })
   
   # Restrict by associated sex
-  
   sexFiltered <- reactive({
     if (input$sex != 'E')
       propFiltered()[propFiltered()$sex == input$sex,]
@@ -39,9 +38,17 @@ shinyServer(function(input, output) {
     unique(yearFiltered())
   })
   
+  # Listener for input changes and presses of the Filter action button
+  listener <- reactive({
+    list(input$goPattern,input$props,input$sex,input$years)
+  })
+  
   # Grep the input name pattern
-  # Reactive to the pattern input box
-  grepNames <- eventReactive (input$goPattern, ignoreNULL = FALSE, {
+  # Reactive to changes in listener values
+  grepNames <- eventReactive (
+    listener(),
+    ignoreNULL = FALSE,
+    {
     uniqueNames()[grep(input$pattern, uniqueNames())]
   })
   
@@ -64,7 +71,7 @@ shinyServer(function(input, output) {
   # Put names into a 3 column matrix
   formatNames <- reactive ({
     matrix(
-      # Fill out each empty columnS at the end with an empty string
+      # Fill out each empty column at the end with an empty string
       c(buildNames(), rep("", padCells())), 
       ncol = 3, 
       byrow = TRUE)

@@ -10,12 +10,11 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
+# Define UI for application that draws random names based on user input
+shinyUI(fluidPage(theme = "bootstrap.min.css",
   # Application title
-  titlePanel("Randonym"),
-  
+  titlePanel(h2("Randonym", align = "center")),
+  # Input sidebar
   sidebarLayout( position = "left",
     sidebarPanel( h4("Settings"),
                   sliderInput("nsize", "Number of names to list:", 1, 50, 15),
@@ -43,7 +42,7 @@ shinyUI(fluidPage(
                               sep = ''),
                   fluidRow (
                     column(width = 10,
-                           class = "col-xs-9",
+                           class = "col-sm-9 col-xs-9",
                            textInput("pattern",
                                      "Matches pattern:",
                                      value = NULL)),
@@ -56,8 +55,9 @@ shinyUI(fluidPage(
                                icon = icon('filter')))
                     )
                   ),
+    # Results panel
     mainPanel( h4("Results"), 
               align = "center",
-              tableOutput("nameList"))
+              strong(tableOutput("nameList")))
   )
 ))

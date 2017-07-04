@@ -13,7 +13,7 @@ library(shiny)
 # Define UI for application that draws random names based on user input
 shinyUI(fluidPage(theme = "bootstrap.min.css",
   # Application title
-  titlePanel(h2("Randonym", align = "center")),
+  titlePanel(h2("Randonym", align = "center"), windowTitle = "Randonym"),
   # Input sidebar
   sidebarLayout( position = "left",
     sidebarPanel( h4("Settings"),

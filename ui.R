@@ -19,7 +19,7 @@ shinyUI(fluidPage(theme = "bootstrap.min.css",
                 align = "center"),
              windowTitle = "Randonym"),
   # Input sidebar
-  sidebarLayout( position = "left",
+  sidebarLayout( position = "right",
     sidebarPanel( h4("Settings"),
                   sliderInput("nsize", "Number of names to list:", 1, 50, 15),
                   # Props are * 100 to display as a percentage

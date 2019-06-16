@@ -63,5 +63,17 @@ shinyUI(fluidPage(theme = "bootstrap.min.css",
     mainPanel( h4("Results"), 
               align = "center",
               strong(tableOutput("nameList")))
-  )
+  ),
+  # Footer panel
+  mainPanel(tags$footer(hr(),
+              br(),
+              "A ",
+              a("Shiny Server web app",
+                href = "https://github.com/rfpaul/Shiny_Randonym"),
+              "by Robert F. Paul",
+              br(),
+              HTML("&nbsp;")),
+            align = "center",
+            # Fluid layouts are 12 units wide
+            width = 12)
 ))
